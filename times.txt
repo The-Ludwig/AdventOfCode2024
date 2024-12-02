@@ -1,0 +1,2 @@
+# day time1/min time2/min runtime1/ms runtime2/ms
+2 47.3 138.8 72 42

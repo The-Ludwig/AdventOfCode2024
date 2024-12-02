@@ -46,7 +46,7 @@ function part_two(list1::Array{Int}, list2::Array{Int})
 end
 
 if abspath(PROGRAM_FILE) == @__FILE__
-  input = get_input(1, 1)
+  input = get_input(1)
   list1, list2 = parse(input)
 
   println("Solution Part One: ", @time part_one(list1, list2))

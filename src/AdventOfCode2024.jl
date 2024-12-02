@@ -1,10 +1,12 @@
 module AdventOfCode2024
 
-export get_input
+export get_input, plot_time
 
 using Downloads: download, request
+using Plots
+using DelimitedFiles
 
-function get_input(part::Int, day::Int, year::Int=2024)::String
+function get_input(day::Int, year::Int=2024)::String
     # cache input
     cachefile = ".cache/day$day.input"
 
@@ -16,9 +18,40 @@ function get_input(part::Int, day::Int, year::Int=2024)::String
       download(url, cachefile; headers = headers)
     end 
 
-    read(cachefile, String)
+    strip(read(cachefile, String))
 end
 
+function plot_time(file="times.txt")
+  # Load data
+  data = readdlm(file, Float32, comments=true)
+  day = @view data[:,1]
+  time1 = @view data[:,2]
+  timesum = @view data[:,3]
+
+  # plot solving time
+  plot(day, [time1 timesum-time1 timesum], mark=:x, label=["Part 1" "Part 2" "Total"])
+
+  xlabel!("Day")
+  ylabel!("Time / minutes")
+  title!("Time spend on puzzles")
+  xlims!(1, maximum(day)+1)
+  ylims!(0, maximum(timesum)*1.1)
+  
+  savefig("time.png")
+  
+  # plot runtime
+  runtime1 = @view data[:,4]
+  runtime2 = @view data[:,5]
+  plot(day, [runtime1 runtime2], mark=:x, label=["Part 1" "Part 2"])
+
+  xlabel!("Day")
+  ylabel!("Runime / ms")
+  title!("My Runtime Solutions")
+  xlims!(1, maximum(day)+1)
+  ylims!(0, maximum(vcat(runtime1, runtime2))*1.1)
+  
+  savefig("runtime.png")
+end 
 
 ###############################################################
 # automatically include all days into this module as submodules
@@ -38,6 +71,10 @@ for file in files
       include(joinpath($this_dir, $file))  # Include the file
     end
   )
+end
+
+if abspath(PROGRAM_FILE) == @__FILE__
+  plot_time()
 end
 
 end # module AdventOfCode2024
