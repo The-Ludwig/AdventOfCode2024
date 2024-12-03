@@ -10,6 +10,9 @@ function get_input(day::Int, year::Int=2024)::String
     # cache input
     cachefile = ".cache/day$day.input"
 
+    # create dir if it does not exist
+    mkpath(".cache/")
+
     # download and cache if input does not already exist
     if !isfile(cachefile)
       url = "https://adventofcode.com/$year/day/$day/input"
@@ -22,6 +25,7 @@ function get_input(day::Int, year::Int=2024)::String
 end
 
 function plot_time(file="times.txt")
+  bg = RGB(0.2, 0.2, 0.2)
   # Load data
   data = readdlm(file, Float32, comments=true)
   day = @view data[:,1]
@@ -29,7 +33,7 @@ function plot_time(file="times.txt")
   timesum = @view data[:,3]
 
   # plot solving time
-  plot(day, [time1 timesum-time1 timesum], mark=:x, label=["Part 1" "Part 2" "Total"])
+  plot(day, [time1 timesum-time1 timesum], mark=[:star6 :star7 :star8], markerstrokecolor=[1 2 3], label=["Part 1" "Part 2" "Total"], bg=bg)
 
   xlabel!("Day")
   ylabel!("Time / minutes")
@@ -42,11 +46,11 @@ function plot_time(file="times.txt")
   # plot runtime
   runtime1 = @view data[:,4]
   runtime2 = @view data[:,5]
-  plot(day, [runtime1 runtime2], mark=:x, label=["Part 1" "Part 2"])
+  plot(day, [runtime1 runtime2], mark=[:star6 :star7], label=["Part 1" "Part 2"], markerstrokecolor=[1 2], bg=bg)
 
   xlabel!("Day")
   ylabel!("Runime / ms")
-  title!("My Runtime Solutions")
+  title!("Runtime Solutions")
   xlims!(1, maximum(day)+1)
   ylims!(0, maximum(vcat(runtime1, runtime2))*1.1)
   
@@ -75,7 +79,6 @@ end
 
 if abspath(PROGRAM_FILE) == @__FILE__
   plot_time()
-  sdfs
 end
 
 end # module AdventOfCode2024
