@@ -75,6 +75,7 @@ end
 
 if abspath(PROGRAM_FILE) == @__FILE__
   plot_time()
+  sdfs
 end
 
 end # module AdventOfCode2024
