@@ -46,13 +46,13 @@ function plot_time(file="times.txt")
   # plot runtime
   runtime1 = @view data[:,4]
   runtime2 = @view data[:,5]
-  plot(day, [runtime1 runtime2], mark=[:star6 :star7], label=["Part 1" "Part 2"], markerstrokecolor=[1 2], bg=bg)
+  plot(day, [runtime1 runtime2], mark=[:star6 :star7], label=["Part 1" "Part 2"], markerstrokecolor=[1 2], bg=bg, yscale=:log10)
 
   xlabel!("Day")
   ylabel!("Runime / ms")
   title!("Runtime Solutions")
   xlims!(1, maximum(day)+1)
-  ylims!(0, maximum(vcat(runtime1, runtime2))*1.1)
+  ylims!(0.05, maximum(vcat(runtime1, runtime2))*1.1)
   
   savefig("runtime.png")
 end 
