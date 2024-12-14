@@ -7,3 +7,4 @@
 # first weekend suprised me as well...
 7 30 46 195 1120 
 8 25 40 9.8 .1 
+9 45 145 141 765
